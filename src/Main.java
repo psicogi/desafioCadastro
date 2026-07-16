@@ -1,7 +1,9 @@
+import service.PetService;
+
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
         String opc;
         do {
@@ -17,6 +19,12 @@ public class Main {
             System.out.println("-----------------------------------------------------");
 
             opc = sc.nextLine();
+
+            switch (opc) {
+                case "1":
+                    PetService.cadastrar(sc);
+                    break;
+            }
 
         } while (!opc.matches("[1-6]"));
 

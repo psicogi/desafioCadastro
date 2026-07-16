@@ -1,6 +1,8 @@
 package utils;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileUtils {
     public static void main(String[] args) {
@@ -19,5 +21,24 @@ public class FileUtils {
         } catch (IOException e) { // captura se der algum erro
             e.printStackTrace(); // mostra o erro no terminal
         }
+    }
+
+    public static List<String> lerPerguntas() {
+        List<String> perguntas = new ArrayList<>();
+        File form = new File("formulario.txt");
+
+        try (FileReader fr = new FileReader(form); BufferedReader br = new BufferedReader(fr)){
+
+            String line = br.readLine(); // le a primeira linha e guarda na var line, se a linha for vazia a var armazena o "null"
+            while (line != null) { // enquanto a var for diferente de null o arquivo é lido
+                perguntas.add(line); // adiciona a linha na lista
+                line = br.readLine(); // le a linha
+            }
+
+        } catch (IOException e) { // captura se der algum erro
+            e.printStackTrace(); // mostra o erro no terminal
+        }
+
+        return perguntas;
     }
 }
