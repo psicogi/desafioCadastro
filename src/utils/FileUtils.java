@@ -1,6 +1,10 @@
 package utils;
 
+import model.Pet;
+
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,5 +44,37 @@ public class FileUtils {
         }
 
         return perguntas;
+    }
+
+    public static void salvar(Pet pet) {
+        LocalDateTime  now = LocalDateTime.now(); // pega a hora de agora
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm"); // formata no padrao dado pelo dev
+
+        String dataFormatada =  now.format(formatter); // aplica a formatação na data
+
+        String nomeSemEspaco = pet.getName().replace(" ", "").toUpperCase();
+        String nomeArquivo = "petsCadastrados/" + dataFormatada + "-" + nomeSemEspaco + ".TXT";
+
+        File file = new File(nomeArquivo);
+
+        try (FileWriter fw = new FileWriter(file); BufferedWriter bw = new BufferedWriter(fw)){
+
+            bw.write("1 - " + pet.getName()); // escreve a linha nova
+            bw.newLine(); // cria uma nova linha
+            bw.write("2 - " + pet.getPet());
+            bw.newLine();
+            bw.write("3 - " + pet.getSexo());
+            bw.newLine();
+            bw.write("4 - " + pet.getRua() + ", " + pet.getNumero() + ", " + pet.getCidade());
+            bw.newLine();
+            bw.write("5 - " + pet.getIdade());
+            bw.newLine();
+            bw.write("6 - " + pet.getPeso());
+            bw.newLine();
+            bw.write("7 - " + pet.getRaca());
+
+        } catch (IOException e) { // captura se der algum erro
+            e.printStackTrace(); // mostra o erro no terminal
+        }
     }
 }

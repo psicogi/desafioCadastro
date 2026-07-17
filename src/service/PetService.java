@@ -92,5 +92,7 @@ public class PetService {
         }
 
         Pet pet = new Pet(name, tipoPet, tipoSexo, numeroCasa, cidade, rua, idade, peso, raca);
+
+        FileUtils.salvar(pet);
     }
 }
