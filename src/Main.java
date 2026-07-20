@@ -24,6 +24,9 @@ public class Main {
                 case "1":
                     PetService.cadastrar(sc);
                     break;
+                case "2":
+                    PetService.buscar(sc);
+                    break;
             }
 
         } while (!opc.matches("[1-6]"));

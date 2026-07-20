@@ -5,7 +5,9 @@ import enums.TipoSexo;
 import model.Pet;
 import utils.FileUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class PetService {
@@ -94,5 +96,139 @@ public class PetService {
         Pet pet = new Pet(name, tipoPet, tipoSexo, numeroCasa, cidade, rua, idade, peso, raca);
 
         FileUtils.salvar(pet);
+    }
+
+    public static void buscar(Scanner sc) throws Exception {
+        List<Pet> pets = FileUtils.lerPets();
+
+
+        // pergunta qual o tipo do pet
+        System.out.println("Qual o tipo do animal quer buscar? ");
+        System.out.println("1. Cachorro");
+        System.out.println("2. Gato");
+        String opc = sc.nextLine();
+
+        TipoPet tipoBuscado = opc.equals("1") ? TipoPet.CACHORRO : TipoPet.GATO; // se a opc for 1 é cachorro, senao, gato
+
+        List<Pet> petsFiltrados = new ArrayList<>();
+        for (Pet pet: pets) {
+            if (pet.getPet() == tipoBuscado) { // se o pet for igual ao tipo buscado, adicione ele
+                petsFiltrados.add(pet);
+            }
+        }
+
+        System.out.println("Por qual critério quer buscar? ");
+        System.out.println("1. Nome");
+        System.out.println("2. Sexo");
+        System.out.println("3. Idade");
+        System.out.println("4. Peso");
+        System.out.println("5. Raça");
+        System.out.println("6. Endereço");
+        String criterio = sc.nextLine();
+
+        boolean encontrou = false;
+
+        switch (criterio) {
+            case "1":
+                System.out.println("Digite o nome do animal: ");
+                String nomeBuscado = sc.nextLine();
+
+                for (Pet pet: petsFiltrados) {
+                    if (pet.getName().toLowerCase().contains(nomeBuscado.toLowerCase())) {
+                        System.out.println("Nome: " + pet.getName() + "\nPet: " + pet.getPet() + "\nSexo: " + pet.getSexo() + "\nIdade: " + pet.getIdade());
+                        encontrou = true;
+                    }
+                }
+
+                if (!encontrou) {
+                    System.out.println("Pet não encontrado!");
+                }
+                break;
+            case "2":
+                encontrou = false;
+                System.out.println("Digite o sexo do animal: ");
+                String sexoBuscado = sc.nextLine();
+
+                for (Pet pet: petsFiltrados) {
+                    if (pet.getSexo().toString().equalsIgnoreCase(sexoBuscado)) {
+                        System.out.println("Nome: " + pet.getName() + "\nPet: " + pet.getPet() + "\nSexo: " + pet.getSexo() + "\nIdade: " + pet.getIdade());
+                        encontrou = true;
+                    }
+                }
+
+                if (!encontrou) {
+                    System.out.println("Pet não encontrado!");
+                }
+
+                break;
+            case "3":
+                encontrou = false;
+                System.out.println("Digite a idade: ");
+                String idadeBuscada = sc.nextLine();
+
+                for (Pet pet: petsFiltrados) {
+                    if (pet.getIdade().contains(idadeBuscada)) {
+                        System.out.println("Nome: " + pet.getName() + "\nPet: " + pet.getPet() + "\nSexo: " + pet.getSexo() + "\nIdade: " + pet.getIdade());
+                        encontrou = true;
+                    }
+                }
+
+                if (!encontrou) {
+                    System.out.println("Pet não encontrado!");
+                }
+                break;
+            case "4":
+                encontrou = false;
+                System.out.println("Digite o peso: ");
+                String pesoBuscado = sc.nextLine();
+
+                for (Pet pet: petsFiltrados) {
+                    if (pet.getPeso() == pesoBuscado) {
+                        System.out.println("Nome: " + pet.getName() + "\nPet: " + pet.getPet() + "\nSexo: " + pet.getSexo() + "\nIdade: " + pet.getIdade());
+                        encontrou = true;
+                    }
+                }
+
+                if (!encontrou) {
+                    System.out.println("Pet não encontrado!");
+                }
+                break;
+            case "5":
+                encontrou = false;
+                System.out.println("Digite a raça: ");
+                String racaBuscada = sc.nextLine();
+
+                for (Pet pet: petsFiltrados) {
+                    if (pet.getRaca().equalsIgnoreCase(racaBuscada)) {
+                        System.out.println("Nome: " + pet.getName() + "\nPet: " + pet.getPet() + "\nSexo: " + pet.getSexo() + "\nIdade: " + pet.getIdade());
+                        encontrou = true;
+                    }
+                }
+
+                if (!encontrou) {
+                    System.out.println("Pet não encontrado!");
+                }
+                break;
+            case "6":
+                encontrou = false;
+                System.out.println("Digite o endereço: ");
+                String enderecoBuscado = sc.nextLine();
+
+                for (Pet pet: petsFiltrados) {
+                    String endereco = pet.getRua() + " " + pet.getNumero() + " " + pet.getCidade();
+                    if (endereco.toLowerCase().contains(enderecoBuscado.toLowerCase())) {
+                        System.out.println("Nome: " + pet.getName() + "\nPet: " + pet.getPet() + "\nSexo: " + pet.getSexo() + "\nIdade: " + pet.getIdade());
+                        encontrou = true;
+                    }
+                }
+
+                if (!encontrou) {
+                    System.out.println("Pet não encontrado!");
+                }
+                break;
+            default:
+                System.out.println("Opção inválida!");
+        }
+
     }
 }

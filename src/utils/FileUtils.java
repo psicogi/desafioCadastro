@@ -1,5 +1,7 @@
 package utils;
 
+import enums.TipoPet;
+import enums.TipoSexo;
 import model.Pet;
 
 import java.io.*;
@@ -76,5 +78,38 @@ public class FileUtils {
         } catch (IOException e) { // captura se der algum erro
             e.printStackTrace(); // mostra o erro no terminal
         }
+    }
+
+    public static List<Pet> lerPets() {
+        List<Pet> pets = new ArrayList<>(); // cria uma lista
+        File pasta = new File("petsCadastrados"); // cria um objeto que aponta para a pasta
+        File[] arquivos = pasta.listFiles(); // cria um array que lista os arquivos da pasta
+
+        for (File file : arquivos) {
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String nome = br.readLine().split(" - ")[1]; // cria uma var para cada linha lida e remove o -
+                String tipo = br.readLine().split(" - ")[1];
+                String sexo = br.readLine().split(" - ")[1];
+                String endereco = br.readLine().split(" - ")[1];
+                String idade = br.readLine().split(" - ")[1];
+                String peso = br.readLine().split(" - ")[1];
+                String raca = br.readLine().split(" - ")[1];
+
+                String[] partesEndereco = endereco.split(", "); // cria um array para dividir as partes de endereco
+                String rua = partesEndereco[0];
+                String numeroCasa = partesEndereco[1];
+                String cidade = partesEndereco[2];
+
+                TipoPet tipoPet = TipoPet.valueOf(tipo); // converte o tipo para enum
+                TipoSexo tipoSexo = TipoSexo.valueOf(sexo);
+
+                Pet pet = new Pet(nome, tipoPet, tipoSexo, numeroCasa, cidade, rua, idade, peso, raca); // cria um objeto e aponta para o resultado
+                pets.add(pet); // adiciona o objeto
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return pets;
     }
 }
